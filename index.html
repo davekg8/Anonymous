@@ -4,32 +4,7 @@
   <meta charset="UTF-8">
   <title>💌 Dis-moi quelque chose !</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: radial-gradient(circle at top left, #250214, #013b3a);
-      font-family: 'Outfit', sans-serif;
-      animation: fadeIn 1.2s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .floating-heart {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 100px;
-      height: 100px;
-      background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center/contain;
-      opacity: 0.1;
-      animation: float 6s infinite ease-in-out;
-    }
-    @keyframes float {
-      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
-      50% { transform: translate(-48%, -53%) scale(1.1); opacity: 0.3; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="flex items-center justify-center min-h-screen px-4">
   <div class="floating-heart"></div>
@@ -46,30 +21,22 @@
 
     <p id="merci" class="mt-6 text-green-200 font-semibold hidden">Merci pour ton message, je le chérirai 💖</p>
   </div>
-
   <iframe name="hidden_iframe" style="display:none;"></iframe>
 
-  <script>
-    function handleSubmit() {
-      document.getElementById("anonymous-form").style.display = "none";
-      document.getElementById("merci").classList.remove("hidden");
-      return true;
-    }
+  <!-- Deux musiques en alternance -->
+<audio id="bg-music" loop muted autoplay>
+  <source src="Déclaration d'amour.mp3" type="audio/mpeg">
+</audio>
 
-    // Récupère la position approximative via IP
-    fetch("https://ipapi.co/json/")
-      .then(response => response.json())
-      .then(data => {
-        const ville = data.city || "Ville inconnue";
-        const pays = data.country_name || "Pays inconnu";
-        const info = `Localisation: ${ville}, ${pays}`;
+<!-- Bouton pour activer -->
+<div class="fixed bottom-4 right-4">
+  <button id="music-toggle-btn" onclick="toggleMusic()" class="bg-white/70 backdrop-blur-md text-indigo-700 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-white transition">
+    🔊 Activer la musique
+  </button>
+</div>
 
-        // Ajoute à la fin du message
-        const textarea = document.getElementById("message");
-        const locField = document.getElementById("location-field");
 
-        locField.value = info; // envoyé dans un champ masqué
-      });
-  </script>
+  <script src="script.js"></script>
+
 </body>
 </html>
