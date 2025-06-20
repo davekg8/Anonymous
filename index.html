@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
   <link rel="icon" type="image/png" href="preview.png" />
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Ajout important pour mobile -->
   <meta property="og:title" content="💌 Dis-moi quelque chose !" />
   <meta property="og:description" content="Écris-moi un message anonyme, je le lirai avec le cœur 💖. By David" />
   <meta property="og:image" content="https://davekg8.github.io/Anonymous/preview.png" />
@@ -10,41 +11,71 @@
   <meta property="og:type" content="website" />
   <title>💌 Dis-moi quelque chose !</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="flex items-center justify-center min-h-screen px-4">
   <div class="floating-heart"></div>
-  <div class="glass bg-white/10 text-white backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-10 max-w-xl w-full text-center
-              sm:p-10 sm:max-w-xl
-              max-w-full p-4 bg-white/30">
-    <h1 class="text-4xl font-extrabold mb-4">Un petit mot pour moi ? 💖💖</h1>
-    <p class="mb-6 text-white/90 text-lg">Laisse-moi une petite douceur, une question, une confession... tout est bienvenu 💌</p>
+  <div
+    class="glass bg-white/10 text-white backdrop-blur-xl border border-white/30 rounded-3xl shadow-2xl p-6 sm:p-10 max-w-xl w-full max-w-full text-center"
+  >
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-4">Un petit mot pour moi ? 💖💖</h1>
+    <p class="mb-6 text-white/90 text-base sm:text-lg px-2 sm:px-0">
+      Laisse-moi une petite douceur, une question, une confession... tout est bienvenu 💌
+    </p>
 
-    <form id="anonymous-form" action="https://docs.google.com/forms/d/e/1FAIpQLSdk4J4nv0mtpt9LtV5DNiD7DsiA4hVME44o0BWHt4AWB7U2qQ/formResponse" method="POST" target="hidden_iframe" onsubmit="return handleSubmit()" class="space-y-4">
-      <input name="entry.54893111" type="text" placeholder="Ton surnom (ou rien du tout 🤫)" class="w-full p-3 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white">
-      <textarea name="entry.1600563806" id="message" required placeholder="Écris ton message ici..." rows="5" class="w-full p-4 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white"></textarea>
-      <input type="hidden" name="entry.63399113" id="location-field">
-      <button type="submit" class="w-full bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-xl transition">Envoyer ✨</button>
+    <form
+      id="anonymous-form"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSdk4J4nv0mtpt9LtV5DNiD7DsiA4hVME44o0BWHt4AWB7U2qQ/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="return handleSubmit()"
+      class="space-y-4 px-2 sm:px-0"
+    >
+      <input
+        name="entry.54893111"
+        type="text"
+        placeholder="Ton surnom (ou rien du tout 🤫)"
+        class="w-full p-3 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white text-sm sm:text-base"
+      />
+      <textarea
+        name="entry.1600563806"
+        id="message"
+        required
+        placeholder="Écris ton message ici..."
+        rows="5"
+        class="w-full p-4 bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-white text-sm sm:text-base"
+      ></textarea>
+      <input type="hidden" name="entry.63399113" id="location-field" />
+      <button
+        type="submit"
+        class="w-full bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-xl transition text-base sm:text-lg"
+      >
+        Envoyer ✨
+      </button>
     </form>
 
-    <p id="merci" class="mt-6 text-green-200 font-semibold hidden">Merci pour ton message, je le chérirai 💖</p>
+    <p id="merci" class="mt-6 text-green-200 font-semibold hidden px-2 sm:px-0">
+      Merci pour ton message, je le chérirai 💖
+    </p>
   </div>
   <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   <!-- Deux musiques en alternance -->
-<audio id="bg-music" loop muted autoplay>
-  <source src="Déclaration d'amour.mp3" type="audio/mpeg">
-</audio>
+  <audio id="bg-music" loop muted autoplay>
+    <source src="Déclaration d'amour.mp3" type="audio/mpeg" />
+  </audio>
 
-<!-- Bouton pour activer -->
-<div class="fixed bottom-4 right-4">
-  <button id="music-toggle-btn" onclick="toggleMusic()" class="bg-white/70 backdrop-blur-md text-indigo-700 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-white transition">
-    🔊 Activer la musique
-  </button>
-</div>
-
+  <!-- Bouton pour activer -->
+  <div class="fixed bottom-4 right-4">
+    <button
+      id="music-toggle-btn"
+      onclick="toggleMusic()"
+      class="bg-white/70 backdrop-blur-md text-indigo-700 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-white transition text-sm sm:text-base"
+    >
+      🔊 Activer la musique
+    </button>
+  </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
